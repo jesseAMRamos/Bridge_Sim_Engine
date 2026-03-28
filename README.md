@@ -9,9 +9,22 @@ flowchart TD
 manualIn["User Inputed Bridge Dimensions"]
 display["Display Bridge"]
 GUI["GUG"]
+FDIMS["Formated Dimensions"]
+IV["Input Vectorizer"]
+M["Matrices: C,Sx,Sy,..."]
+FE["Force Estimation"]
+CE["Cost Estimation"]
+FORCE["Displayed Forces: likely heatmap"]
 
-manualIN --> GUI
+manualIn --> GUI
 GUI --> display
+GUI --> FDIMS
+FDIMS --> IV
+IV --> M
+M --> FE
+M --> CE
+FE --> GUI
+CE --> GUI
 
 ```
 
