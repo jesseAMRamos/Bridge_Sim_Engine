@@ -8,7 +8,7 @@ title: Flowchart
 flowchart TD
 manualIn["User Inputed Bridge Dimensions"]
 display["Display Bridge"]
-GUI["GUG"]
+GUI["GUI"]
 FDIMS["Formated Dimensions"]
 IV["Input Vectorizer"]
 M["Matrices: C,Sx,Sy,..."]
@@ -19,6 +19,7 @@ FORCE["Displayed Forces: likely heatmap"]
 manualIn --> GUI
 GUI --> display
 GUI --> FDIMS
+GUI --> FORCE
 FDIMS --> IV
 IV --> M
 M --> FE
