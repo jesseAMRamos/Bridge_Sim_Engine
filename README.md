@@ -26,6 +26,5 @@ M --> CE
 FE --> GUI
 CE --> GUI
 display --> FORCE
-
 ```
 
