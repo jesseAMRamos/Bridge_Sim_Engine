@@ -22,7 +22,7 @@ function varargout = gui_rename(varargin)
 
 % Edit the above text to modify the response to help gui_rename
 
-% Last Modified by GUIDE v2.5 04-Apr-2026 18:02:58
+% Last Modified by GUIDE v2.5 05-Apr-2026 16:05:13
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -90,7 +90,12 @@ function slider1_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
+%get sider scale
+p = get(handles.slider1,'Value');
+%calculated Force to apply and displays it
+weight = 30;
+FORCE = weight*p;
+set(handles.FORCEOUTPUT,'String',sprintf('Result:%.1f Oz.',FORCE));
 
 % --- Executes during object creation, after setting all properties.
 function slider1_CreateFcn(hObject, eventdata, handles)
@@ -111,6 +116,7 @@ function SaveTable_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 tableData = get(handles.posTable,'Data');
 columnNames = get(handles.posTable,'ColumnName');
+jointToLoad = get(handles.loadedJoint,'String');
 
 % save table to file
 savePath = fullfile(fileparts(which('gui_rename.m')),'processing', 'dim_table.mat');
@@ -119,5 +125,30 @@ save(savePath, 'tableData', 'columnNames');
 msgbox(['Data saved to: ' savePath], 'Save Successful');
 
 addpath(genpath('processing'));
-bridgePlotter(handles.axes1);
+bridgePlotter(handles.axes1,jointToLoad);
 drawnow;
+
+
+
+
+
+function loadedJoint_Callback(hObject, eventdata, handles)
+% hObject    handle to loadedJoint (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of loadedJoint as text
+%        str2double(get(hObject,'String')) returns contents of loadedJoint as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function loadedJoint_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to loadedJoint (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
