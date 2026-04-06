@@ -1,3 +1,4 @@
+%definintion of inputs would be nice
 function fail = failure(mj, magn, load)
     %constants needed for load buckling relationship
     C = 37.5;
@@ -5,11 +6,17 @@ function fail = failure(mj, magn, load)
     a = 2;
     U_fit = 10;
 
-   
-    M = length(mj)
+    %preallocations 
+    M = length(mj);
+    buck_load = zeros(M);
+    buck_load_min = zeros(M);
+    buck_load_max = zeros(M);
+    ratio = zeros(M);
+    fload = zeros(M);
+
     for m = 1:M
         %gets the buckling force 
-        buck_load(m) = C*((L_0/load)^a)
+        buck_load(m) = C*((L_0/load)^a);
         %min and max from uncertainty
         buck_load_min(m) = buck_load(m) - U_fit;
         buck_load_max(m) = buck_load(m) + U_fit; 
