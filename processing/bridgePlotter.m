@@ -1,5 +1,5 @@
 
-function [uniqueJoints] = bridgePlotter(ax)    
+function [uniqueJoints] = bridgePlotter(ax,WJOINT)    
     loaded = load('dim_table.mat');
 
     tableData = loaded.tableData;
@@ -41,13 +41,22 @@ function [uniqueJoints] = bridgePlotter(ax)
 
     % label unique joints only
     uniqueJoints = unique([joints; memberEnds], 'rows');
+    disp(uniqueJoints)
     letters = 'A':'Z';
     for i = 1:size(uniqueJoints, 1)
         text(ax, uniqueJoints(i,1), uniqueJoints(i,2), letters(i), 'FontSize', 16, 'Color', 'blue');
     end
+    % lable weighted joint with arrow
+    jointIndex = find(letters==WJOINT);
+    wJoint = uniqueJoints(jointIndex,:);
+    quiver(ax, wJoint(1), wJoint(2)+3, 0, -2, 'r', 'LineWidth', 2, 'MaxHeadSize', 1);
+
+
     xlim(ax, [-5 35]);
     ylim(ax, [0 20]);
     grid(ax,"on");
     axis(ax,"equal");
 
 end
+
+
