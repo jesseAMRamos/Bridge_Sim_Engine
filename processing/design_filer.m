@@ -18,8 +18,8 @@ end
 
 [uniqueJoints,~,jointMap] = unique([joints;memberEnds], 'rows', 'stable');
 %jointMap
-
-A = dimToVector(joints,memberEnds,uniqueJoints,jointMap)
+%jointMap
+A = dimToVector(joints,memberEnds,uniqueJoints)
 %example on how to index map
 %{
 for i = 1:size(joints(:,1))
