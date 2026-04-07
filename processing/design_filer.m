@@ -1,5 +1,4 @@
 % Will be master command to bring computations together
-kdf
 % layer to interacts directly with files
 % generate the design_file.mat that will be submitted
 loaded = load('dim_table.mat');
@@ -17,8 +16,10 @@ for i = 1:length(tableData)
     memberEnds(i,:) = [str2double(tableData{i,3}),str2double(tableData{i,4})];
 end
 
-[uniqueJoints,~,jointMap] = unique([joints], 'rows', 'stable');
+[uniqueJoints,~,jointMap] = unique([joints;memberEnds], 'rows', 'stable');
+%jointMap
 
+A = dimToVector(joints,memberEnds,uniqueJoints,jointMap)
 %example on how to index map
 %{
 for i = 1:size(joints(:,1))

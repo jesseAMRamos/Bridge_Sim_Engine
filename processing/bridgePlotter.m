@@ -40,7 +40,7 @@ function [uniqueJoints] = bridgePlotter(ax,WJOINT)
     end
  
     % label unique joints only
-    uniqueJoints = unique([joints; memberEnds], 'rows');
+    [uniqueJoints,~,jointMap] = unique([joints;memberEnds], 'rows', 'stable');
     disp(uniqueJoints)
     letters = 'A':'Z';
     for i = 1:size(uniqueJoints, 1)
