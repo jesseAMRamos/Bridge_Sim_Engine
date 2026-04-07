@@ -18,8 +18,7 @@ function fail = failure(T, startJoints, endJoints, load)
         buck_load_min(m) = buck_load(m) - U_fit;
         buck_load_max(m) = buck_load(m) + U_fit; 
 
-        %gets the ratio so we can see if the members are in tension or
-        %compression
+        %gets the ratio so we can see if the members are in tension or compression
         ratio(m) = T(m) / load;
         if ratio(m) < 0
             %buckling occurs only in compression
