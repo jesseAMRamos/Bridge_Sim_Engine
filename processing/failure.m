@@ -6,7 +6,10 @@ function fail = failure(mj, magn, load)
     U_fit = 10;
 
    
-    M = length(mj)
+    M = length(mj);
+    buck_load = zeros(M);
+    buck_load_min = zeros(M);
+    buck_load_max = zeros(M);
     for m = 1:M
         %gets the buckling force 
         buck_load(m) = C*((L_0/load)^a)
