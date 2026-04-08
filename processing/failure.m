@@ -7,11 +7,10 @@ function fail = failure(T, startJoints, endJoints, load)
     U_fit = 10;
 
    
-    M = length(mj);
+    M = size(startJoints, 1);
     buck_load = zeros(M);
     buck_load_min = zeros(M);
     buck_load_max = zeros(M);
-    M = size(startJoints, 1);
     for m = 1:M
         %gets the length of the members 
         magn(m) = sqrt((endJoints(m,1)-startJoints(m,1))^2-(endJoints(m,2)-startJoints(m,2))^2);
@@ -29,8 +28,8 @@ function fail = failure(T, startJoints, endJoints, load)
             fload(m) = (-1*buck_load(m))/ratio(m);
         else
             %in tension so no buckling
-            fload(m) = 0;
-        end
+            fload(m) = inf;
+        end 
     end
     %smallest positive value is the critical member
     w_failure = min(fload);
