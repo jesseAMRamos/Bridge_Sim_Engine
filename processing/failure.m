@@ -8,9 +8,9 @@ function fail = failure(T, startJoints, endJoints, load)
 
    
     M = size(startJoints, 1);
-    buck_load = zeros(M);
-    buck_load_min = zeros(M);
-    buck_load_max = zeros(M);
+    buck_load = zeros(M,1);
+    buck_load_min = zeros(M,1);
+    buck_load_max = zeros(M,1);
     for m = 1:M
         %gets the length of the members 
         magn(m) = sqrt((endJoints(m,1)-startJoints(m,1))^2+(endJoints(m,2)-startJoints(m,2))^2);
@@ -32,9 +32,7 @@ function fail = failure(T, startJoints, endJoints, load)
         end 
     end
     %smallest positive value is the critical member
-    w_failure = min(fload);
-    %return with the critical member and load
-    fail = w_failure;
+    fail = min(fload);
     %get which joint number the critical member is
     [fail, i] = min(fload);
 

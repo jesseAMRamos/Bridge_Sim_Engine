@@ -86,7 +86,8 @@ end
 % 
 %     % Cost and ratio
 %     fprintf('\nCost of truss: $%.2f\n', cost);
-%     fprintf('Load/cost ratio: %.4f oz/$\n', load/cost);
+%      [maxLoad, criticalMem] = failure(memberForces, joints, memberEnds, load);
+%     fprintf('Theoretical Max load/cost ratio: %.4f oz/$\n', maxLoad/cost);
 % 
 %     %Theoretical max load/cost ratio in oz/$: 0.0031
 % 
