@@ -28,7 +28,7 @@ end
 end  
 %}
 
-[A,names,r] = dimToVector(joints,memberEnds,uniqueJoints);
+[A,names,r,C] = dimToVector(joints,memberEnds,uniqueJoints);
 index = 0;
 big = uniqueJoints(1,1);
 for i = 2:size(uniqueJoints,1)
@@ -43,10 +43,17 @@ Sx(1,1) = 1;
 Sy(1,2) = 1;
 Sy(index,3) = 1; 
 A =  [A [Sx;Sy]];
-
+C = C;
+Sx;
+Sy;
+X = uniqueJoints(:,1);
+Y = uniqueJoints(:,2);
 mg = 30*9.81;
 L = zeros(2*size(uniqueJoints,1),1);
 L(13,1) = -mg;
+
+%Input File creator
+save('TrussDesign1_XiMaryAssad_A1.mat','C','Sx','Sy','X','Y','L')
 
 Tension = forceCalculations(A,L);
 function [] = display(T,N)
