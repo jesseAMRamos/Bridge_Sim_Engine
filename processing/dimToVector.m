@@ -1,22 +1,32 @@
 %Use the start and end joints distance to calculate a normalized
 %position matix C, as shown in the lab manual
 % (Normalized mean more of the form of matrix A -> [Cx, Cy]T)
+function [A, names,r] = dimToVector(startJoints, endJoints, uniqueJoints)
+    n = size(uniqueJoints, 1);
+    m = size(startJoints, 1);
+    Cx = zeros(n, m);
+    Cy = zeros(n, m);
+    r  = zeros(m, 1);
+    names = strings(m,1);
+    letters = 'A':'Z';
 
-function [C,Sx,Sy,L] = dimToComponent(startJoints, endJoints, uniqueJoints, jointMap)
-    C = [];
-    
-    for i = 1:length(startJoints)
-        end_start = (endJoints(i) - start_end(i)) / sqrt(startJoints(i)^2 + endJoints(i)^2);
-        start_end = (startJoints(i) - endJoints(i)) / sqrt(startJoints(i)^2 + endJoints(i)^2);
-        C(i,jointMap(i)) = end_start;
-        C(i,jointMap())
-        
-        
+    for i = 1:m
+        x1 = startJoints(i,1);  y1 = startJoints(i,2);
+        x2 = endJoints(i,1);    y2 = endJoints(i,2);
+        r(i) = sqrt((x2-x1)^2 + (y2-y1)^2);
 
-    end 
+        for j = 1:size(uniqueJoints, 1)
+            if isequal(startJoints(i,:), uniqueJoints(j,:))
+                Cx(j,i) = (x2-x1)/r(i);
+                Cy(j,i) = (y2-y1)/r(i);
+                names(i) = names(i) + letters(j);
+            elseif isequal(endJoints(i,:), uniqueJoints(j,:))
+                Cx(j,i) = (x1-x2)/r(i);
+                Cy(j,i) = (y1-y2)/r(i);
+                names(i) = names(i) + letters(j);
+            end
+        end
+    end
+
+    A = [Cx; Cy];
 end
-
-% Use the helper function above to construct Matrix A
-function [A] = dimToVector(startJoints, endJoints, uniqueJoints)
-
-end    
