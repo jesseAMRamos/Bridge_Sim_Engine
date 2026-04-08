@@ -13,7 +13,7 @@ function fail = failure(T, startJoints, endJoints, load)
     buck_load_max = zeros(M);
     for m = 1:M
         %gets the length of the members 
-        magn(m) = sqrt((endJoints(m,1)-startJoints(m,1))^2-(endJoints(m,2)-startJoints(m,2))^2);
+        magn(m) = sqrt((endJoints(m,1)-startJoints(m,1))^2+(endJoints(m,2)-startJoints(m,2))^2);
         %gets the buckling load force
         buck_load(m) = C*((L_0/magn(m))^a);
 
@@ -36,7 +36,7 @@ function fail = failure(T, startJoints, endJoints, load)
     %return with the critical member and load
     fail = w_failure;
     %get which joint number the critical member is
-    [fail, i] = min(fload)
+    [fail, i] = min(fload);
 
 end
 
