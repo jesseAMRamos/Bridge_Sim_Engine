@@ -136,37 +136,37 @@ function [Tension,names,condition] = design_filer(F,jointIndex)
     end 
 end
 
-% function printResults(memberForces, reactionForces, memberLengths, load, cost)
-%     % Header
-%     fprintf('EK301, Section A1, Group X: Name1, Name2, Name3, Date\n');
-%     fprintf('Load: %g oz\n\n', load);
-% 
-%     % Member forces
-%     fprintf('Member forces in oz:\n');
-%     for i = 1:length(memberForces)
-%         if memberForces(i) < 0
-%             label = 'C';
-%         else
-%             label = 'T';
-%         end
-%         fprintf('m%d: %.3f (%s)\n', i, abs(memberForces(i)), label);
-%     end
-% 
-%     % Reaction forces
-%     fprintf('\nReaction forces in oz:\n');
-%     reactionLabels = {'Sx1', 'Sy1', 'Sy2'};
-%     for i = 1:length(reactionForces)
-%         fprintf('%s: %.3f\n', reactionLabels{i}, reactionForces(i));
-%     end
-% 
-%     % Cost and ratio
-%     fprintf('\nCost of truss: $%.2f\n', cost);
-%      [maxLoad, criticalMem] = failure(memberForces, joints, memberEnds, load);
-%     fprintf('Theoretical Max load/cost ratio: %.4f oz/$\n', maxLoad/cost);
-% 
-%     %Theoretical max load/cost ratio in oz/$: 0.0031
-% 
-% end 
+function printResults(memberForces, reactionForces, memberLengths, load, cost)
+    % Header
+    fprintf('EK301, Section A1, Group X: Name1, Name2, Name3, Date\n');
+    fprintf('Load: %g oz\n\n', load);
+
+    % Member forces
+    fprintf('Member forces in oz:\n');
+    for i = 1:length(memberForces)
+        if memberForces(i) < 0
+            label = 'C';
+        else
+            label = 'T';
+        end
+        fprintf('m%d: %.3f (%s)\n', i, abs(memberForces(i)), label);
+    end
+
+    % Reaction forces
+    fprintf('\nReaction forces in oz:\n');
+    reactionLabels = {'Sx1', 'Sy1', 'Sy2'};
+    for i = 1:length(reactionForces)
+        fprintf('%s: %.3f\n', reactionLabels{i}, reactionForces(i));
+    end
+
+    % Cost and ratio
+    fprintf('\nCost of truss: $%.2f\n', cost);
+    [maxLoad, criticalMem] = failure(memberForces, joints, memberEnds, load);
+    fprintf('Theoretical Max load/cost ratio: %.4f oz/$\n', maxLoad/cost);
+
+    %Theoretical max load/cost ratio in oz/$: 0.0031
+
+end  
 
 
 
