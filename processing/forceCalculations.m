@@ -2,7 +2,7 @@
 % Not too complicated
 function [T] = forceCalculations(A,L)
 
-    T = A \ (L);
+    T = A \ (-L);
 end
 
 % I'm pretty sure we also need to find if members buckle

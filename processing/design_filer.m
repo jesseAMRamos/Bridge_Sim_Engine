@@ -84,11 +84,14 @@ function [Tension,names,condition] = design_filer(F,jointIndex)
     % Strip empty rows
     mask = ~cellfun(@isempty, tableData(:,1));
     tableData = tableData(mask, :);
-    n = size(tableData,1);
+    mask = ~cellfun(@isempty, tableData(:,1));
+    tableData = tableData(mask, :);
+    n = size(tableData,1)
     joints    = zeros(n, 2);
     memberEnds = zeros(n, 2);
+    
     %convert from strings to doubles
-    for i = 1:length(tableData)
+    for i = 1:size(tableData,1)
         joints(i,:) = [str2double(tableData{i,1}),str2double(tableData{i,2})];
         memberEnds(i,:) = [str2double(tableData{i,3}),str2double(tableData{i,4})];
     end
@@ -107,6 +110,7 @@ function [Tension,names,condition] = design_filer(F,jointIndex)
     
     [A,names,r] = dimToVector(joints,memberEnds,uniqueJoints);
     index = 0;
+    
     big = uniqueJoints(1,1);
     for i = 2:size(uniqueJoints,1)
         if uniqueJoints(i,1) >= big
@@ -120,7 +124,9 @@ function [Tension,names,condition] = design_filer(F,jointIndex)
     Sy(1,2) = 1;
     Sy(index,3) = 1; 
     A =  [A [Sx;Sy]]
-    
+    %disp(rank(A))        % should equal size(A,1) = 16
+    %disp(cond(A))        % should be reasonable (<1e10), Inf or huge = singular
+    %disp(det(A))
     L = zeros(2*size(uniqueJoints,1),1);
     L(size(uniqueJoints,1)+jointIndex,1) = F
     
