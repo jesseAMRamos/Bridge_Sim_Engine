@@ -129,6 +129,27 @@ bridgePlotter(handles.axes1,jointToLoad);
 drawnow;
 
 
+% 2. Create a container for the gauges inside your existing GUIDE figure
+% We place it at the bottom of the figure. [left bottom width height]
+%{numGauges = 4; 
+%gaugePanel = uipanel(handles.output, 'Units', 'pixels', 'Position', [0 0 440 130]);
+%gaugeWidth = 110;
+%spacing = 10;
+
+%for i = 1:numGauges
+    % Calculate X position for each gauge
+ %   xPos = (i-1) * (gaugeWidth + spacing) + 10;
+    
+    % IMPORTANT: Create the gauge directly as a child of the panel
+    % If it still appears white, your version of MATLAB may require a 'uifigure'
+  %  g = uigauge(gaugePanel, 'circular', 'Position', [xPos, 10, gaugeWidth, gaugeWidth]); 
+    
+   % g.Label = sprintf('Joint %d', i);
+    %g.ScaleColors = {'yellow', 'green', 'red'};
+    %g.ScaleColorLimits = [0 30; 30 70; 70 100];
+%end
+%}
+
 
 
 
