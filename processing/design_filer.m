@@ -2,7 +2,7 @@
 % layer to interacts directly with files
 % generate the design_file.mat that will be submitted
 
-function [Tension,names] = design_filer(F,jointIndex)
+function [Tension,names,condition] = design_filer(F,jointIndex)
     loaded = load('dim_table.mat');
     tableData = loaded.tableData;
     %columnNames = loaded.columnNames;
@@ -19,6 +19,7 @@ function [Tension,names] = design_filer(F,jointIndex)
     end
     
     [uniqueJoints,~,jointMap] = unique([joints;memberEnds], 'rows', 'stable');
+    condition = size(joints,1) == 2*size(uniqueJoints,1) -3;
     %jointMap
     %jointMap
     %example on how to index map
@@ -43,10 +44,10 @@ function [Tension,names] = design_filer(F,jointIndex)
     Sx(1,1) = 1;
     Sy(1,2) = 1;
     Sy(index,3) = 1; 
-    A =  [A [Sx;Sy]];
+    A =  [A [Sx;Sy]]
     
     L = zeros(2*size(uniqueJoints,1),1);
-    L(jointIndex,1) = -100*F;
+    L(size(uniqueJoints,1)+jointIndex,1) = F
     
     Tension = forceCalculations(A,L);
     function [] = display(T,N)
