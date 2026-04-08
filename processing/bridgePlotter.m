@@ -13,7 +13,7 @@ function [uniqueJoints] = bridgePlotter(ax,WJOINT)
     memberEnds = zeros(n, 2);
 
     %convert from strings to doubles
-    for i = 1:length(tableData)
+    for i = 1:size(tableData,1)
         joints(i,:) = [str2double(tableData{i,1}),str2double(tableData{i,2})];
         memberEnds(i,:) = [str2double(tableData{i,3}),str2double(tableData{i,4})];
     end
