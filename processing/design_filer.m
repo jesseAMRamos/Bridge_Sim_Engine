@@ -77,3 +77,4 @@ end
 
 
 
+display(Tension,names)
