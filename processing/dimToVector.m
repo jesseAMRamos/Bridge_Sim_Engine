@@ -1,7 +1,7 @@
 %Use the start and end joints distance to calculate a normalized
 %position matix C, as shown in the lab manual
 % (Normalized mean more of the form of matrix A -> [Cx, Cy]T)
-function [A, names,r] = dimToVector(startJoints, endJoints, uniqueJoints)
+function [A, names,r, C] = dimToVector(startJoints, endJoints, uniqueJoints)
     n = size(uniqueJoints, 1);
     m = size(startJoints, 1);
     Cx = zeros(n, m);
@@ -9,7 +9,7 @@ function [A, names,r] = dimToVector(startJoints, endJoints, uniqueJoints)
     r  = zeros(m, 1);
     names = strings(m,1);
     letters = 'A':'Z';
-
+    
     for i = 1:m
         x1 = startJoints(i,1);  y1 = startJoints(i,2);
         x2 = endJoints(i,1);    y2 = endJoints(i,2);
@@ -27,6 +27,9 @@ function [A, names,r] = dimToVector(startJoints, endJoints, uniqueJoints)
             end
         end
     end
-
+    %Creating C Matirx
+    C = Cx;
+    C(C ~= 0) = 1;
+    %Creating A Matrix
     A = [Cx; Cy];
 end

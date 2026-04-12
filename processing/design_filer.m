@@ -2,7 +2,7 @@
 % layer to interacts directly with files
 % generate the design_file.mat that will be submitted
 
-function [Tension,names,condition] = design_filer(F,jointIndex)
+function [Tension,names,condition,outputText] = design_filer(F,jointIndex)
     loaded = load('dim_table.mat');
     tableData = loaded.tableData;
     %columnNames = loaded.columnNames;
@@ -11,7 +11,7 @@ function [Tension,names,condition] = design_filer(F,jointIndex)
     tableData = tableData(mask, :);
     mask = ~cellfun(@isempty, tableData(:,1));
     tableData = tableData(mask, :);
-    n = size(tableData,1)
+    n = size(tableData,1);
     joints    = zeros(n, 2);
     memberEnds = zeros(n, 2);
     
@@ -24,7 +24,6 @@ function [Tension,names,condition] = design_filer(F,jointIndex)
     [uniqueJoints,~,jointMap] = unique([joints;memberEnds], 'rows', 'stable');
     condition = size(joints,1) == 2*size(uniqueJoints,1) -3;
     %jointMap
-    %jointMap
     %example on how to index map
     %{
         for i = 1:size(joints(:,1))
@@ -33,9 +32,8 @@ function [Tension,names,condition] = design_filer(F,jointIndex)
     end  
     %}
     
-    [A,names,r] = dimToVector(joints,memberEnds,uniqueJoints);
+    [A,names,r,C] = dimToVector(joints,memberEnds,uniqueJoints);
     index = 0;
-    
     big = uniqueJoints(1,1);
     for i = 2:size(uniqueJoints,1)
         if uniqueJoints(i,1) >= big
@@ -48,14 +46,23 @@ function [Tension,names,condition] = design_filer(F,jointIndex)
     Sx(1,1) = 1;
     Sy(1,2) = 1;
     Sy(index,3) = 1; 
-    A =  [A [Sx;Sy]]
+    A =  [A [Sx;Sy]];
     %disp(rank(A))        % should equal size(A,1) = 16
     %disp(cond(A))        % should be reasonable (<1e10), Inf or huge = singular
     %disp(det(A))
     L = zeros(2*size(uniqueJoints,1),1);
-    L(size(uniqueJoints,1)+jointIndex,1) = F
-    
+    L(size(uniqueJoints,1)+jointIndex,1) = -F;
+    X = uniqueJoints(:,1);
+    Y = uniqueJoints(:,2);
     Tension = forceCalculations(A,L);
+    save('TrussDesign1_JesseDanyChaoming_A3.mat','C','Sx','Sy','X','Y','L');
+    reactions = Tension(end-2:end)
+    reactions = [0;nonzeros(reactions)];
+    Tension = Tension(1:size(Tension,1)-3);
+    cost = costEstimations(joints,memberEnds,uniqueJoints);
+
+    outputText = outputTableGen(Tension,reactions,names,F,cost); 
+    
     function [] = display(T,N)
         num= size(N,1);
         for i = 1:num
@@ -67,36 +74,6 @@ function [Tension,names,condition] = design_filer(F,jointIndex)
     end 
 end
 
-% function printResults(memberForces, reactionForces, memberLengths, load, cost)
-%     % Header
-%     fprintf('EK301, Section A1, Group X: Name1, Name2, Name3, Date\n');
-%     fprintf('Load: %g oz\n\n', load);
-% 
-%     % Member forces
-%     fprintf('Member forces in oz:\n');
-%     for i = 1:length(memberForces)
-%         if memberForces(i) < 0
-%             label = 'C';
-%         else
-%             label = 'T';
-%         end
-%         fprintf('m%d: %.3f (%s)\n', i, abs(memberForces(i)), label);
-%     end
-% 
-%     % Reaction forces
-%     fprintf('\nReaction forces in oz:\n');
-%     reactionLabels = {'Sx1', 'Sy1', 'Sy2'};
-%     for i = 1:length(reactionForces)
-%         fprintf('%s: %.3f\n', reactionLabels{i}, reactionForces(i));
-%     end
-% 
-%     % Cost and ratio
-%     fprintf('\nCost of truss: $%.2f\n', cost);
-%     fprintf('Load/cost ratio: %.4f oz/$\n', load/cost);
-% 
-%     %Theoretical max load/cost ratio in oz/$: 0.0031
-% 
-% end 
 
 
 
