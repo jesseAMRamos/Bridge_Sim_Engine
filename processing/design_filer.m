@@ -74,7 +74,3 @@ function [Tension,names,condition,outputText] = design_filer(F,jointIndex)
     end 
 end
 
-
-
-
-display(Tension,names)
