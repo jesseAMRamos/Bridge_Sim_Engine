@@ -19,16 +19,16 @@ function [uniqueJoints] = bridgePlotter(ax,WJOINT)
     end
     %checks for vaild set
     valid = true;
-    for i = 1:n
-        if ~ismember(memberEnds(i,:), joints, 'rows')
-            valid = false;
-            fprintf('Row %d in memberEnds has no matching joint: [%g, %g]\n', i, memberEnds(i,1), memberEnds(i,2));
-        end
-    end
-
-    if valid
-        disp('All memberEnds match a joint.');
-    end
+    % for i = 1:n
+    %     if ~ismember(memberEnds(i,:), joints, 'rows')
+    %         valid = false;
+    %         fprintf('Row %d in memberEnds has no matching joint: [%g, %g]\n', i, memberEnds(i,1), memberEnds(i,2));
+    %     end
+    % end
+    % 
+    % if valid
+    %     disp('All memberEnds match a joint.');
+    % end
 
 
     %plots

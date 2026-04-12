@@ -10,7 +10,6 @@ function [A, names,r, C] = dimToVector(startJoints, endJoints, uniqueJoints)
     names = strings(m,1);
     letters = 'A':'Z';
     
-
     for i = 1:m
         x1 = startJoints(i,1);  y1 = startJoints(i,2);
         x2 = endJoints(i,1);    y2 = endJoints(i,2);
