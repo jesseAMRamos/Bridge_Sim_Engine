@@ -47,9 +47,7 @@ function [Tension,names,condition,outputText] = design_filer(F,jointIndex)
     Sy(1,2) = 1;
     Sy(index,3) = 1; 
     A =  [A [Sx;Sy]];
-    %disp(rank(A))        % should equal size(A,1) = 16
-    %disp(cond(A))        % should be reasonable (<1e10), Inf or huge = singular
-    %disp(det(A))
+    
     L = zeros(2*size(uniqueJoints,1),1);
     L(size(uniqueJoints,1)+jointIndex,1) = -F;
     X = uniqueJoints(:,1);
@@ -60,9 +58,11 @@ function [Tension,names,condition,outputText] = design_filer(F,jointIndex)
     reactions = [0;nonzeros(reactions)];
     Tension = Tension(1:size(Tension,1)-3);
     cost = costEstimations(joints,memberEnds,uniqueJoints);
-
-    outputText = outputTableGen(Tension,reactions,names,F,cost); 
-    
+    [maxLoad,nameFail] = failure(Tension, joints, memberEnds, F,names);
+    outputText = outputTableGen(Tension,reactions,names,maxLoad,nameFail,F,cost); 
+    for i = 1:size(names,1)
+        fprintf("%s is %.3f inches\n",names(i),r(i));
+    end
     function [] = display(T,N)
         num= size(N,1);
         for i = 1:num
